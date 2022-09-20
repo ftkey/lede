@@ -12,7 +12,7 @@ export Tag_Name="x86-lxc"
 #export Firmware_Regex="[0-9]+\.[0-9]+.*?rootfs.*?\.img\.gz"
 #export Firmware_Regex="18\.06.*?rootfs.*?\.img\.gz"
 #penwrt-09.05.2022-x86-64-generic-rootfs.tar.gz
-export Firmware_Regex="*openwrt-*-x86-64-generic-rootfs.tar.gz"
+export Firmware_Regex="openwrt-*-x86-64-generic-rootfs.tar.gz"
 export Github_API="https://api.github.com/repos/${Apidz}/releases/tags/${Tag_Name}"
 export Release_Download_URL="https://github.com/${Apidz}/releases/download/${Tag_Name}"
 export Openwrt_Path="/tmp/openwrt"
