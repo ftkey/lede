@@ -4,11 +4,15 @@
 # Author: Ss.
 # Please use the PVE command line to run the shell script.
 # 个人Github地址（自行更改）
-export Apidz="roacn/build-actions"
+export Apidz="ftkey/lede"
 # release的tag名称（自行更改）
-export Tag_Name="AutoUpdate-lxc"
+export Tag_Name="x86-lxc"
 # 固件搜索正则表达式（自行更改）
-export Firmware_Regex="[0-9]+\.[0-9]+.*?rootfs.*?\.img\.gz"
+#例如：固件名称为18.06-lede-x86-64-lxc-202203032218-rootfs-66afdf.img.gz，则可设置如下
+#export Firmware_Regex="[0-9]+\.[0-9]+.*?rootfs.*?\.img\.gz"
+#export Firmware_Regex="18\.06.*?rootfs.*?\.img\.gz"
+#penwrt-09.05.2022-x86-64-generic-rootfs.tar.gz
+export Firmware_Regex="*openwrt-*-x86-64-generic-rootfs.tar.gz"
 export Github_API="https://api.github.com/repos/${Apidz}/releases/tags/${Tag_Name}"
 export Release_Download_URL="https://github.com/${Apidz}/releases/download/${Tag_Name}"
 export Openwrt_Path="/tmp/openwrt"
@@ -17,7 +21,7 @@ export Creatlxc_Path="/tmp/openwrt/creatlxc"
 export Backup_Path="/tmp/openwrt/backup"
 export LANG=en_US.UTF-8
 export LC_ALL=en_US.UTF-8
-export Version="2022.03.22"
+export Version="2022.09.22"
 # pause
 pause(){
     read -n 1 -p " Press any key to continue... " input
