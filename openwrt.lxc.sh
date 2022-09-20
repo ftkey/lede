@@ -12,7 +12,7 @@ export Tag_Name="x86-lxc"
 #export Firmware_Regex="[0-9]+\.[0-9]+.*?rootfs.*?\.img\.gz"
 #export Firmware_Regex="18\.06.*?rootfs.*?\.img\.gz"
 #penwrt-09.05.2022-x86-64-generic-rootfs.tar.gz
-export Firmware_Regex="openwrt-*-x86-64-generic-rootfs.tar.gz"
+export Firmware_Regex="openwrt-*.*.*-x86-64-generic-rootfs.tar.gz"
 export Github_API="https://api.github.com/repos/${Apidz}/releases/tags/${Tag_Name}"
 export Release_Download_URL="https://github.com/${Apidz}/releases/download/${Tag_Name}"
 export Openwrt_Path="/tmp/openwrt"
@@ -83,9 +83,9 @@ update_CT_Templates(){
     echo
     TIME g "获取固件API信息..."
     if [ ! "$Google_Check" == 301 ];then
-        wget -q --timeout=5 --tries=2 --show-progress https://ghproxy.com/${Release_Download_URL}/Github_Tags -O ${Download_Path}/Github_Tags
+        wget -q --timeout=5 --tries=2 --show-progress https://api.github.com/repos/${Apidz}/releases/tags/${Tag_Name} -O ${Download_Path}/Github_Tags
         if [[ $? -ne 0 ]];then
-            wget -q --timeout=5 --tries=2 --show-progress https://pd.zwc365.com/${Release_Download_URL}/Github_Tags -O ${Download_Path}/Github_Tags
+            wget -q --timeout=5 --tries=2 --show-progress https://api.github.com/repos/${Apidz}/releases/tags/${Tag_Name} -O ${Download_Path}/Github_Tags
             if [[ $? -ne 0 ]];then
                 TIME r "获取固件API信息失败，请检测网络，或者网址是否正确！"
                 echo
@@ -139,14 +139,12 @@ update_CT_Templates(){
     TIME g "固件镜像：${imgsize}字节"
     echo
     TIME y "更新OpenWrt CT模板"
-    echo
-    TIME g "解包OpenWrt img镜像..."
-    cd ${Download_Path} && gzip -d openwrt.rootfs.img.gz && unsquashfs openwrt.rootfs.img
     TIME g "CT模板：上传至/var/lib/vz/template/cache目录..."
     if [[ -f /var/lib/vz/template/cache/openwrt.rootfs.tar.gz ]]; then
         rm -f /var/lib/vz/template/cache/openwrt.rootfs.tar.gz
     fi
-    cd ${Download_Path}/squashfs-root && tar zcf /var/lib/vz/template/cache/openwrt.rootfs.tar.gz ./* && cd ../.. && rm -rf ${Download_Path}
+    cd ${Download_Path}
+    mv ${Download_Path}/openwrt.rootfs.img.gz /var/lib/vz/template/cache/openwrt.rootfs.tar.gz
     TIME g "CT模板：上传成功！"
     ctsize=`ls -l /var/lib/vz/template/cache/openwrt.rootfs.tar.gz | awk '{print $5}'`    
     TIME g "CT模板：${ctsize}字节"
@@ -670,3 +668,4 @@ EOF
 # 脚本运行！
 linux_uname
 menu
+
